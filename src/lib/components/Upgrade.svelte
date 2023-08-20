@@ -77,9 +77,9 @@
             {#if $page.data.user.tier === 'FREE'}
             <form method='POST' use:enhance class='w-full flex items-center justify-end'>
                 <!-- test -->
-                <input type="hidden" name="price_id" id='price_id' value="price_1NaKe5GiQ416YsHZ4urSGtnU" /> 
+                <!-- <input type="hidden" name="price_id" id='price_id' value="price_1NaKe5GiQ416YsHZ4urSGtnU" />  -->
                 <!-- real -->
-                <!-- <input type="hidden" name="price_id" id='price_id' value="price_1Na5JZGiQ416YsHZ5xPu8Ak1" /> -->
+                <input type="hidden" name="price_id" id='price_id' value="price_1Na5JZGiQ416YsHZ5xPu8Ak1" />
 
                 <Button formaction="/upgrade?/stripe_checkout_session" type='submit' variant='primary'>Upgrade</Button>
             </form>
