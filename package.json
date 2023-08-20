@@ -11,7 +11,6 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"postinstall": "prisma generate",
-		"postbuild": "cp node_modules/@prisma/engines/*query* .vercel_build_output/functions/node/render/;cp prisma/schema.prisma .vercel_build_output/functions/node/render/",
 		"predev": "npm run prisma:migrate:dev",
 		"prisma:migrate:dev": "prisma migrate dev",
 		"prisma:migrate:reset": "prisma migrate reset --force",
