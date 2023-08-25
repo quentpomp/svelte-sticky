@@ -94,12 +94,8 @@
 	}
 
 	let input: HTMLInputElement;
-	let p_content: HTMLParagraphElement;
-	let c = '\u2022';
+	let p_content: HTMLParagraphElement;;
 </script>
-
-<!-- on:dblclick={() => toggle_popup.update(() => true)}
-variant='button' -->
 
 <Card
 	features="relative flex justify-between items-center p-2 transition duration-300 {content.private
@@ -173,12 +169,7 @@ variant='button' -->
 							name="item-{i}"
 							bind:value={item}
 							on:keydown={(e) => {
-								// if (e.key == 'Enter') {
-								// 	list_items.update((curr) => [...curr, 'Item']);
-								// 	num_list_items += 1;
-								// 	let new_input = document.getElementById(`item-${i + 1}`);
-								// 	if (new_input) new_input.focus();
-								// }
+
 								edit = true;
 							}}
 							class="bg-inherit border-none font-semibold text-base w-full outline-none"
