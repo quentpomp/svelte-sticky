@@ -21,45 +21,43 @@
 	}
 </script>
 
-<main>
-	<div class="flex flex-col duration-200">
-		{#each folders as folder}
+<div class="flex flex-col duration-200">
+	{#each folders as folder}
+		<button
+			class="flex gap-2 items-center px-1 ml-1 py-1 {$mode
+				? 'hover:bg-zinc-700'
+				: 'hover:bg-zinc-200'} rounded-md overflow-hidden group/folder"
+		>
 			<button
-				class="flex gap-2 items-center px-1 ml-1 py-1 {$mode
-					? 'hover:bg-zinc-700'
-					: 'hover:bg-zinc-200'} rounded-md overflow-hidden group/folder"
+				on:click={() => {
+					current_folder_id.update(() => folder.id);
+					let update_url = new URL($page.url);
+					update_url.searchParams.set('folder', $current_folder_id.toString());
+
+					if (browser) goto(update_url);
+				}}
+				class="w-4 h-4 flex justify-center items-center flex-shrink-0"
 			>
-				<button
-					on:click={() => {
-						current_folder_id.update(() => folder.id);
-						let update_url = new URL($page.url);
-						update_url.searchParams.set('folder', $current_folder_id.toString());
-
-						if (browser) goto(update_url);
-					}}
-					class="w-4 h-4 flex justify-center items-center flex-shrink-0"
-				>
-					<FaFolder />
-				</button>
-				<form method="POST" use:enhance class="flex items-center justify-between">
-					<input
-						class="bg-inherit border-none outline-none px-0 py-0 w-3/4"
-						bind:value={folder.name}
-						id="name"
-						name="name"
-					/>
-					<input type="hidden" bind:value={folder.id} name="id" id="id" />
-					<input type="hidden" bind:value={folder.parent_id} name="parent_id" id="parent_id" />
-
-					<button class="hidden" formaction="/stickies?/update_folder" />
-					<button
-						class="opacity-0 group-hover/folder:opacity-100 text-red-500 w-4 h-4 flex justify-center items-center"
-						formaction="/stickies?/delete_folder"
-					>
-						<MdDelete />
-					</button>
-				</form>
+				<FaFolder />
 			</button>
-		{/each}
-	</div>
-</main>
+			<form method="POST" use:enhance class="flex items-center justify-between">
+				<input
+					class="bg-inherit border-none outline-none px-0 py-0 w-3/4"
+					bind:value={folder.name}
+					id="name"
+					name="name"
+				/>
+				<input type="hidden" bind:value={folder.id} name="id" id="id" />
+				<input type="hidden" bind:value={folder.parent_id} name="parent_id" id="parent_id" />
+
+				<button class="hidden" formaction="/stickies?/update_folder" />
+				<button
+					class="opacity-0 group-hover/folder:opacity-100 text-red-500 w-4 h-4 flex justify-center items-center"
+					formaction="/stickies?/delete_folder"
+				>
+					<MdDelete />
+				</button>
+			</form>
+		</button>
+	{/each}
+</div>

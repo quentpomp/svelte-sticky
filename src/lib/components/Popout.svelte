@@ -7,11 +7,6 @@
 	let screen_width = 0;
 	$: style = `width: ${width}px;`;
 
-	// $: if ($toggle_popup) {
-	// 		width = 
-	// }
-	
-
 	toggle_popup.subscribe((toggle) => {
 		if (toggle) {
 			let interval = setInterval(() => {

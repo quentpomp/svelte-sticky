@@ -4,7 +4,6 @@
 	import Button from '$lib/building_blocks/Button.svelte';
 
 	import { mode, toggle_popup, toggle_toast } from '$lib/store/store';
-	import { page } from '$app/stores';
 	import { writable, type Writable } from 'svelte/store';
 	import Default from './add_sticky_templates/Default.svelte';
 	import List from './add_sticky_templates/List.svelte';
