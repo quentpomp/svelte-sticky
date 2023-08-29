@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Upgrade from '$lib/components/Upgrade.svelte';
-import { mode } from '$lib/store/store';
+	import { mode } from '$lib/store/store';
 	import { onMount } from 'svelte';
 	onMount(() => {
 		document.body.style.backgroundColor = $mode ? 'rgb(23, 23, 23)' : '#fafafa';
@@ -12,5 +12,5 @@ import { mode } from '$lib/store/store';
 		? 'bg-neutral-900'
 		: 'bg-[#fafafa]'} pt-12 px-12 pb-8 md:pt-24 md:px-24 md:pb-16"
 >
-    <Upgrade />
+	<Upgrade />
 </div>

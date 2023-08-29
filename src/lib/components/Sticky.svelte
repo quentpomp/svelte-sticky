@@ -25,7 +25,7 @@
 
 	const list_items: Writable<string[]> =
 		content.type == 'List' ? writable(content.note.split('\n')) : writable([]);
-	let num_list_items = $list_items.length
+	let num_list_items = $list_items.length;
 
 	const password_items: Writable<string[][]> =
 		content.type == 'Password'
@@ -55,8 +55,8 @@
 	let num_direction_items = $direction_items.length;
 
 	function sanitize_HTML(html_content: string) {
-		const tempElement = document.createElement('div');
-		tempElement.innerHTML = html_content;
+		const temp_element = document.createElement('div');
+		temp_element.innerHTML = html_content;
 
 		function process_node(node: HTMLElement) {
 			if (node.nodeType === Node.TEXT_NODE) {
@@ -77,7 +77,7 @@
 			}
 		}
 
-		return process_node(tempElement)?.trim();
+		return process_node(temp_element)?.trim() ?? '';
 	}
 
 	function validate_html(html_content: string) {
@@ -92,7 +92,7 @@
 </script>
 
 <Card
-	features="relative flex justify-between items-center p-2 transition duration-300 {content.private
+	features="relative flex justify-between items-center p-2 pb-6 transition duration-300 {content.private
 		? 'outline outline-red-500 h-24'
 		: ''}"
 >
@@ -133,15 +133,22 @@
 		{#if content.type === 'Default'}
 			<Default bind:content bind:p_content bind:edit />
 		{:else if content.type === 'List'}
-			<List bind:content bind:edit bind:num_list_items {list_items}/>
+			<List bind:content bind:edit bind:num_list_items {list_items} />
 		{:else if content.type === 'Password'}
 			<Password bind:content bind:edit {password_items} />
 		{:else if content.type == 'Sensitive'}
 			<Default bind:content bind:p_content bind:edit />
 		{:else if content.type == 'Recipe'}
-			<Recipe bind:content bind:edit bind:num_direction_items bind:num_ingredient_items {ingredient_items} {direction_items} />
+			<Recipe
+				bind:content
+				bind:edit
+				bind:num_direction_items
+				bind:num_ingredient_items
+				{ingredient_items}
+				{direction_items}
+			/>
 		{:else if content.type == 'Markdown'}
-			<Markdown bind:content bind:p_content bind:edit/>
+			<Markdown bind:content bind:p_content bind:edit />
 		{/if}
 	</div>
 
@@ -149,21 +156,21 @@
 		<form
 			method="POST"
 			use:enhance={({ formData, cancel }) => {
-				if (content.type == 'List') {
+				if (content.type == 'Default') {
+					let sanitized_content = sanitize_HTML(p_content.innerHTML);
+					formData.set('description', sanitized_content ?? content.note);
+					return async ({ result, update }) => {
+						await update();
+						p_content.textContent = content.note;
+						edit = false;
+					};
+				} else if (content.type == 'List') {
 					list_items.set($list_items.filter((curr) => curr !== ''));
 					let sanitized_list = $list_items.join('\n');
 					formData.set('description', sanitized_list);
 					num_list_items = 0;
 					return async ({ result, update }) => {
 						await update();
-						edit = false;
-					};
-				} else if (content.type == 'Default') {
-					let sanitized_content = sanitize_HTML(p_content.innerHTML);
-					formData.set('description', sanitized_content ?? content.note);
-					return async ({ result, update }) => {
-						await update();
-						p_content.textContent = content.note;
 						edit = false;
 					};
 				} else if (content.type == 'Password') {
@@ -185,8 +192,11 @@
 					let sanitized_ingredients = $ingredient_items
 						.map((ingred) => ingred.join('🚀'))
 						.join('\n');
-					let sanitized_directions = $direction_items.join('\n');
-					let sanitized_content = `${sanitized_ingredients}🐐${sanitized_directions}`;
+					let sanitized_directions = $direction_items.map((item, idx) => {
+						return sanitize_HTML(document.getElementById(`display-direction-${idx}`)?.innerHTML ?? "")
+					})
+					let joined_sanitized_directions = sanitized_directions.filter(curr => curr !== '').join('\n');
+					let sanitized_content = `${sanitized_ingredients}🐐${joined_sanitized_directions}`;
 					formData.set('description', sanitized_content ?? content.note);
 					return async ({ result, update }) => {
 						await update();
