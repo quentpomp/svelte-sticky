@@ -45,7 +45,7 @@
 		"@aws-sdk/signature-v4-crt": "^3.391.0",
 		"@prisma/client": "^5.1.1",
 		"@stripe/stripe-js": "^1.54.2",
-		"aws-crt": "^1.18.0",
+		"aws-crt": "^1.19.0",
 		"aws-sdk": "^2.1440.0",
 		"bcrypt": "^5.1.0",
 		"dompurify": "^3.0.5",
